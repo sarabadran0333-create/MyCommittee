@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>@ViewData["Title"] - Lijancom</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <style>
+        body {
+            background: #f5f6fa;
+            font-family: Segoe UI;
+        }
+
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            background: white;
+            border-right: 1px solid #eee;
+            padding: 25px 15px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #3b6ef5;
+            margin-bottom: 30px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 12px 14px;
+            border-radius: 8px;
+            color: #555;
+            text-decoration: none;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+            .menu a:hover {
+                background: #eef2ff;
+                color: #3b6ef5;
+            }
+
+        .menu .active {
+            background: #3b6ef5;
+            color: white;
+        }
+
+        .logout {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            color: #dc3545 !important;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 25px 35px;
+        }
+
+        .topbar {
+            background: white;
+            padding: 14px 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .dashboard-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .committee-item {
+            background: #f4f6fb;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .meeting-item {
+            background: #f4f6fb;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+            .meeting-item small {
+                display: block;
+                color: #6c757d;
+            }
+    </style>
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo">
+            Lijancom
+        </div>
+
+        <div class="menu">
+
+            <a asp-controller="Admin" asp-action="Dashboard"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard" ? "active" : "")">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+
+            <a asp-controller="Admin" asp-action="Committees"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Committees" ? "active" : "")">
+                <i class="bi bi-diagram-3"></i> Committees
+            </a>
+
+            <a asp-controller="Admin" asp-action="Meetings"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Meetings" ? "active" : "")">
+                <i class="bi bi-calendar-event"></i> Meetings
+            </a>
+
+            <a asp-controller="Admin" asp-action="Minutes"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Minutes" ? "active" : "")">
+                <i class="bi bi-file-earmark-text"></i> Minutes
+            </a>
+            <a asp-controller="Admin" asp-action="Notifications"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Notifications" ? "active" : "")">
+                <i class="bi bi-bell"></i> Notifications
+            </a>
+            <a asp-controller="Admin" asp-action="Settings"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Settings" ? "active" : "")">
+                <i class="bi bi-gear"></i> Settings
+            </a>
+            <a asp-controller="Admin" asp-action="Profile"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Profile" ? "active" : "")">
+                <i class="bi bi-person"></i> Profile
+            </a>
+            <a class="logout" asp-controller="Account" asp-action="Logout">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="content">
+
+        
+
+        @RenderBody()
+
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

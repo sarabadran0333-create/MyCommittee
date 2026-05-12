@@ -1,0 +1,210 @@
+﻿@{
+    ViewData["Title"] = "Meetings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .meetings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+        }
+
+        .meetings-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .meetings-subtitle {
+            margin: 0;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .view-switch {
+            display: inline-flex;
+            align-items: center;
+            background: #f1f5f9;
+            border-radius: 16px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .view-btn {
+            border: none;
+            background: transparent;
+            color: #0f172a;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .view-btn.active {
+                background: white;
+                box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+            }
+
+        .meetings-table-wrap {
+            background: transparent;
+            border-radius: 20px;
+        }
+
+        .meetings-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: transparent;
+        }
+
+            .meetings-table thead th {
+                text-align: left;
+                font-size: 1rem;
+                font-weight: 600;
+                color: #0f172a;
+                padding: 10px 10px 14px 10px;
+                border-bottom: 1px solid #dbe3ef;
+            }
+
+            .meetings-table tbody td {
+                padding: 16px 10px;
+                font-size: 1rem;
+                color: #0f172a;
+                border-bottom: 1px solid #dbe3ef;
+                vertical-align: middle;
+            }
+
+            .meetings-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+        .meeting-title {
+            font-weight: 500;
+        }
+
+        .action-btn {
+            background: #3b6ef5;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 10px 16px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+            .action-btn:hover {
+                background: #2f5ee0;
+                color: white;
+            }
+
+        .page-shell {
+            padding-top: 8px;
+        }
+
+
+        .meetings-header {
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .meetings-table {
+            min-width: 950px;
+        }
+    </style>
+}
+
+<div class="page-shell">
+
+    <div class="meetings-header">
+        <div>
+            <h1 class="meetings-title">Meetings</h1>
+            <p class="meetings-subtitle">Schedule and manage committee meetings</p>
+        </div>
+
+        <div class="view-switch">
+            <button type="button" class="view-btn active">
+                <i class="bi bi-list-ul"></i>
+                <span>List</span>
+            </button>
+
+            <button type="button" class="view-btn">
+                <i class="bi bi-calendar3"></i>
+                <span>Calendar</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="meetings-table-wrap">
+        <div class="table-responsive">
+            <table class="meetings-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Committee</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Room</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td class="meeting-title">Budget Review Meeting</td>
+                        <td>Finance Committee</td>
+                        <td>2/22/2026</td>
+                        <td>10:00 AM</td>
+                        <td>Conference Room A</td>
+                        <td>
+                            <a href="#" class="action-btn">
+                                <i class="bi bi-eye"></i>
+                                <span>View Details</span>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="meeting-title">Policy Discussion</td>
+                        <td>Academic Affairs</td>
+                        <td>2/23/2026</td>
+                        <td>2:00 PM</td>
+                        <td>Board Room</td>
+                        <td>
+                            <a href="#" class="action-btn">
+                                <i class="bi bi-eye"></i>
+                                <span>View Details</span>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="meeting-title">Research Updates</td>
+                        <td>Research Committee</td>
+                        <td>2/25/2026</td>
+                        <td>11:00 AM</td>
+                        <td>Conference Room B</td>
+                        <td>
+                            <a href="#" class="action-btn">
+                                <i class="bi bi-eye"></i>
+                                <span>View Details</span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

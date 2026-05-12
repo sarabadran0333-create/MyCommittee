@@ -1,0 +1,223 @@
+﻿@{
+    ViewData["Title"] = "Notifications";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .notifications-page {
+            padding-top: 8px;
+        }
+
+        .notifications-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .notifications-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .notifications-subtitle {
+            margin: 0;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .mark-read-btn {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 16px;
+            padding: 10px 18px;
+            font-weight: 500;
+            color: #0f172a;
+        }
+
+            .mark-read-btn:hover {
+                background: #f8fafc;
+            }
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .notification-card {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 22px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        }
+
+        .notification-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .icon-blue {
+            background: #eef2ff;
+            color: #3b6ef5;
+        }
+
+        .icon-green {
+            background: #ecfdf3;
+            color: #16a34a;
+        }
+
+        .icon-yellow {
+            background: #fff7ed;
+            color: #f59e0b;
+        }
+
+        .icon-gray {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .notification-content h5 {
+            margin: 0 0 6px 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .notification-content p {
+            margin: 0 0 8px 0;
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .notification-time {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .notification-dot {
+            width: 9px;
+            height: 9px;
+            background: #3b6ef5;
+            border-radius: 50%;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .notification-card.read .notification-dot {
+            display: none;
+        }
+
+
+        .notifications-header {
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .notification-card {
+            padding: 18px;
+        }
+    </style>
+}
+
+<div class="notifications-page">
+
+    <div class="notifications-header">
+        <div>
+            <h1 class="notifications-title">Notifications</h1>
+            <p class="notifications-subtitle">Stay updated with the latest activities</p>
+        </div>
+
+        <button class="mark-read-btn">Mark All as Read</button>
+    </div>
+
+    <div class="notification-list">
+
+        <div class="notification-card">
+            <div class="notification-left">
+                <div class="notification-icon icon-blue">
+                    <i class="bi bi-bell"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h5>Upcoming Meeting</h5>
+                    <p>Budget Review Meeting scheduled for tomorrow at 10:00 AM</p>
+                    <div class="notification-time">2 hours ago</div>
+                </div>
+            </div>
+
+            <div class="notification-dot"></div>
+        </div>
+
+        <div class="notification-card">
+            <div class="notification-left">
+                <div class="notification-icon icon-green">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h5>Minutes Approved</h5>
+                    <p>Your meeting minutes for Research Committee have been approved</p>
+                    <div class="notification-time">5 hours ago</div>
+                </div>
+            </div>
+
+            <div class="notification-dot"></div>
+        </div>
+
+        <div class="notification-card read">
+            <div class="notification-left">
+                <div class="notification-icon icon-yellow">
+                    <i class="bi bi-exclamation-circle"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h5>Task Deadline</h5>
+                    <p>Your task 'Review budget proposal' is due tomorrow</p>
+                    <div class="notification-time">1 day ago</div>
+                </div>
+            </div>
+
+            <div class="notification-dot"></div>
+        </div>
+
+        <div class="notification-card read">
+            <div class="notification-left">
+                <div class="notification-icon icon-gray">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+
+                <div class="notification-content">
+                    <h5>New Committee Member</h5>
+                    <p>Dr. Ali Hassan has been added to Academic Affairs committee</p>
+                    <div class="notification-time">2 days ago</div>
+                </div>
+            </div>
+
+            <div class="notification-dot"></div>
+        </div>
+
+    </div>
+
+</div>

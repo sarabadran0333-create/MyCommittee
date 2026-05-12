@@ -1,0 +1,322 @@
+﻿@{
+    ViewData["Title"] = "Final Meeting Minutes";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .minutes-page {
+            padding-top: 8px;
+        }
+
+        .minutes-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .minutes-subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 28px;
+        }
+
+        .filter-card {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 22px;
+            padding: 26px;
+            margin-bottom: 28px;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1.2fr;
+            gap: 18px;
+            align-items: end;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+            .input-wrap i {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #64748b;
+                pointer-events: none;
+            }
+
+            .input-wrap .left-icon {
+                left: 14px;
+            }
+
+            .input-wrap .right-icon {
+                right: 14px;
+            }
+
+        .minutes-input,
+        .minutes-select {
+            height: 52px;
+            border: 1px solid #dbe3ef;
+            border-radius: 14px;
+            font-size: 1rem;
+            color: #334155;
+            background: #fff;
+        }
+
+        .minutes-select {
+            padding-left: 14px;
+            appearance: none;
+        }
+
+        .minutes-input.with-left-icon {
+            padding-left: 42px;
+        }
+
+        .minutes-input:focus,
+        .minutes-select:focus {
+            border-color: #3b6ef5;
+            box-shadow: 0 0 0 0.15rem rgba(59, 110, 245, 0.12);
+        }
+
+        .table-card {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 22px;
+            padding: 22px 26px;
+        }
+
+        .minutes-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+
+            .minutes-table thead th {
+                text-align: left;
+                font-size: 1rem;
+                font-weight: 600;
+                color: #0f172a;
+                padding: 14px 10px;
+                border-bottom: 1px solid #dbe3ef;
+                white-space: nowrap;
+            }
+
+            .minutes-table tbody td {
+                padding: 18px 10px;
+                border-bottom: 1px solid #e8eef5;
+                color: #0f172a;
+                vertical-align: middle;
+            }
+
+            .minutes-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+        .status-pill {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: #dcfce7;
+            color: #15803d;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .action-link {
+            color: #3b6ef5;
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 18px;
+        }
+
+            .action-link:hover {
+                color: #2f5ee0;
+            }
+
+        .icon-link {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 1.05rem;
+            margin-right: 18px;
+        }
+
+            .icon-link:last-child {
+                margin-right: 0;
+            }
+
+            .icon-link:hover {
+                color: #3b6ef5;
+            }
+
+        .pagination-wrap {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 26px;
+        }
+
+        .page-btn {
+            min-width: 44px;
+            height: 40px;
+            border: 1px solid #dbe3ef;
+            background: #fff;
+            color: #0f172a;
+            border-radius: 12px;
+            padding: 0 14px;
+            font-weight: 500;
+        }
+
+            .page-btn.active {
+                background: #3b6ef5;
+                color: #fff;
+                border-color: #3b6ef5;
+            }
+
+            .page-btn:hover {
+                background: #f8fbff;
+            }
+
+
+        .filter-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+
+        .filter-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .minutes-table {
+            min-width: 1100px;
+        }
+    </style>
+}
+
+<div class="minutes-page">
+    <h1 class="minutes-title">Final Meeting Minutes</h1>
+    <p class="minutes-subtitle">Published minutes submitted by committee leaders</p>
+
+    <div class="filter-card">
+        <div class="filter-grid">
+
+            <div class="filter-group">
+                <label>Committee</label>
+                <div class="input-wrap">
+                    <select class="form-select minutes-select">
+                        <option>All Committees</option>
+                        <option>Finance Committee</option>
+                        <option>Academic Affairs</option>
+                        <option>Research Committee</option>
+                    </select>
+                    <i class="bi bi-chevron-down right-icon"></i>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Date From</label>
+                <div class="input-wrap">
+                    <input type="text" class="form-control minutes-input" placeholder="mm/dd/yyyy" />
+                    <i class="bi bi-calendar3 right-icon"></i>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Date To</label>
+                <div class="input-wrap">
+                    <input type="text" class="form-control minutes-input" placeholder="mm/dd/yyyy" />
+                    <i class="bi bi-calendar3 right-icon"></i>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Search</label>
+                <div class="input-wrap">
+                    <input type="text" class="form-control minutes-input with-left-icon" placeholder="Search by title or keyword" />
+                    <i class="bi bi-search left-icon"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="minutes-table">
+                <thead>
+                    <tr>
+                        <th>Meeting Title</th>
+                        <th>Committee Name</th>
+                        <th>Meeting Date</th>
+                        <th>Leader Name</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Budget Review Meeting Minutes</td>
+                        <td>Finance Committee</td>
+                        <td>2/15/2026</td>
+                        <td>Dr. Ahmed Hassan</td>
+                        <td><span class="status-pill">Published</span></td>
+                        <td>
+                            <a href="#" class="action-link">View</a>
+                            <a href="#" class="icon-link"><i class="bi bi-download"></i></a>
+                            <a href="#" class="icon-link"><i class="bi bi-archive"></i></a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Academic Policy Review Minutes</td>
+                        <td>Academic Affairs</td>
+                        <td>2/18/2026</td>
+                        <td>Prof. Sarah Ahmed</td>
+                        <td><span class="status-pill">Published</span></td>
+                        <td>
+                            <a href="#" class="action-link">View</a>
+                            <a href="#" class="icon-link"><i class="bi bi-download"></i></a>
+                            <a href="#" class="icon-link"><i class="bi bi-archive"></i></a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Research Strategy Meeting Minutes</td>
+                        <td>Research Committee</td>
+                        <td>2/20/2026</td>
+                        <td>Dr. Mohammed Ali</td>
+                        <td><span class="status-pill">Published</span></td>
+                        <td>
+                            <a href="#" class="action-link">View</a>
+                            <a href="#" class="icon-link"><i class="bi bi-download"></i></a>
+                            <a href="#" class="icon-link"><i class="bi bi-archive"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="pagination-wrap">
+        <button class="page-btn">Previous</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">Next</button>
+    </div>
+</div>

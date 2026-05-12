@@ -1,0 +1,256 @@
+﻿@{
+    ViewData["Title"] = "Settings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .settings-page {
+            padding-top: 8px;
+        }
+
+        .settings-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .settings-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 28px;
+        }
+
+        .settings-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+            max-width: 840px;
+        }
+
+        .settings-card {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 24px;
+            padding: 24px 28px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        }
+
+        .settings-card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 26px;
+        }
+
+            .settings-card-title i {
+                font-size: 1.2rem;
+                color: #334155;
+            }
+
+        .field-label {
+            display: block;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .settings-select-wrap {
+            position: relative;
+        }
+
+        .settings-select {
+            height: 52px;
+            border-radius: 14px;
+            border: 1px solid #dbe3ef;
+            padding-left: 14px;
+            padding-right: 42px;
+            font-size: 1rem;
+            appearance: none;
+            color: #0f172a;
+        }
+
+            .settings-select:focus {
+                border-color: #3b6ef5;
+                box-shadow: 0 0 0 0.15rem rgba(59, 110, 245, 0.12);
+            }
+
+        .settings-select-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        .theme-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        .settings-select.with-left-icon {
+            padding-left: 40px;
+        }
+
+        .notification-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            padding: 6px 0;
+        }
+
+            .notification-row + .notification-row {
+                margin-top: 18px;
+            }
+
+        .notification-info h6 {
+            margin: 0 0 4px 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0f172a;
+        }
+
+        .notification-info p {
+            margin: 0;
+            font-size: 0.98rem;
+            color: #64748b;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 42px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: #cbd5e1;
+            border-radius: 999px;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+            .toggle-slider::before {
+                content: "";
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                left: 3px;
+                top: 3px;
+                background: white;
+                border-radius: 50%;
+                transition: 0.25s;
+                box-shadow: 0 1px 2px rgba(15, 23, 42, 0.2);
+            }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: #3b6ef5;
+        }
+
+            .toggle-switch input:checked + .toggle-slider::before {
+                transform: translateX(18px);
+            }
+
+
+        .settings-stack {
+            max-width: 100%;
+        }
+
+        .notification-row {
+            align-items: flex-start;
+        }
+    </style>
+}
+
+<div class="settings-page">
+
+    <h1 class="settings-title">Settings</h1>
+    <p class="settings-subtitle">Manage your application preferences</p>
+
+    <div class="settings-stack">
+
+        <div class="settings-card">
+            <div class="settings-card-title">
+                <i class="bi bi-globe"></i>
+                <span>Language</span>
+            </div>
+
+            <label class="field-label">Select Language</label>
+            <div class="settings-select-wrap">
+                <select class="form-select settings-select">
+                    <option selected>English</option>
+                    <option>Arabic</option>
+                </select>
+                <i class="bi bi-chevron-down settings-select-icon"></i>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-card-title">
+                <i class="bi bi-brightness-high"></i>
+                <span>Appearance</span>
+            </div>
+
+            <label class="field-label">Theme</label>
+            <div class="settings-select-wrap">
+                <i class="bi bi-sun theme-icon"></i>
+                <select class="form-select settings-select with-left-icon">
+                    <option selected>Light</option>
+                    <option>Dark</option>
+                </select>
+                <i class="bi bi-chevron-down settings-select-icon"></i>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-card-title">
+                <span>Notifications</span>
+            </div>
+
+            <div class="notification-row">
+                <div class="notification-info">
+                    <h6>Push Notifications</h6>
+                    <p>Receive notifications about meetings and tasks</p>
+                </div>
+
+                <label class="toggle-switch">
+                    <input type="checkbox" checked />
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notification-row">
+                <div class="notification-info">
+                    <h6>Email Notifications</h6>
+                    <p>Receive email updates about committee activities</p>
+                </div>
+
+                <label class="toggle-switch">
+                    <input type="checkbox" checked />
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+</div>
