@@ -1,0 +1,214 @@
+﻿@{
+    ViewData["Title"] = "Write Minutes";
+    Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
+}
+
+@section Styles {
+<style>
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-title{
+    font-size:2.2rem;
+    font-weight:700;
+}
+
+.page-subtitle{
+    color:#64748b;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+}
+
+.btn-primary-custom{
+    background:#3b6ef5;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.btn-light-custom{
+    background:#f1f5f9;
+    border:none;
+    padding:10px 18px;
+    border-radius:12px;
+}
+
+.card-box{
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:20px;
+    border:1px solid #e2e8f0;
+}
+
+.section-title{
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+/* Attendance */
+
+.attendance-item{
+    background:#f8fafc;
+    padding:12px 15px;
+    border-radius:12px;
+    margin-bottom:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.present{
+    color:green;
+    font-weight:500;
+}
+
+.absent{
+    color:red;
+    font-weight:500;
+}
+
+/* textarea */
+
+textarea{
+    width:100%;
+    height:120px;
+    border-radius:12px;
+    border:1px solid #e2e8f0;
+    padding:10px;
+}
+
+/* layout split */
+
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+</style>
+}
+
+<!-- HEADER -->
+
+<div class="page-header">
+
+    <div>
+        <div class="page-title">Write Minutes</div>
+        <div class="page-subtitle">Document meeting minutes and decisions</div>
+    </div>
+
+    <div class="actions">
+        <button class="btn-light-custom">
+            <i class="bi bi-download"></i> Export PDF
+        </button>
+
+        <button class="btn-primary-custom">
+            Save Minutes
+        </button>
+    </div>
+
+</div>
+
+<div class="grid">
+
+<!-- LEFT SIDE -->
+
+<div>
+
+    <!-- Meeting Details -->
+    <div class="card-box">
+        <div class="section-title">Meeting Details</div>
+
+        <label>Select Meeting</label>
+        <select class="form-control mb-3">
+            <option>Select a meeting</option>
+        </select>
+
+        <label>Status</label>
+        <select class="form-control">
+            <option>Draft</option>
+            <option>Final</option>
+        </select>
+    </div>
+
+    <!-- Attendance -->
+    <div class="card-box">
+        <div class="section-title">Attendance</div>
+
+        <div class="attendance-item">
+            <div>
+                <input type="checkbox" checked> Dr. Sarah Ahmed
+            </div>
+            <span class="present">Present</span>
+        </div>
+
+        <div class="attendance-item">
+            <div>
+                <input type="checkbox" checked> Prof. Mohammed Ali
+            </div>
+            <span class="present">Present</span>
+        </div>
+
+        <div class="attendance-item">
+            <div>
+                <input type="checkbox"> Ms. Fatima Hassan
+            </div>
+            <span class="absent">Absent</span>
+        </div>
+
+        <div class="attendance-item">
+            <div>
+                <input type="checkbox" checked> Mr. Ahmed Khan
+            </div>
+            <span class="present">Present</span>
+        </div>
+
+    </div>
+
+    <!-- Discussion -->
+    <div class="card-box">
+        <div class="section-title">Discussion Notes</div>
+        <textarea placeholder="Enter discussion points and notes..."></textarea>
+    </div>
+
+    <!-- Decisions -->
+    <div class="card-box">
+        <div class="section-title">Decisions</div>
+        <textarea placeholder="Document key decisions made during the meeting..."></textarea>
+    </div>
+
+</div>
+
+<!-- RIGHT SIDE -->
+
+<div>
+
+    <!-- Assign Tasks -->
+    <div class="card-box">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div class="section-title">Assign Tasks</div>
+
+            <button class="btn-light-custom">
+                <i class="bi bi-plus"></i>
+            </button>
+        </div>
+
+        <p class="text-muted text-center mt-4">No tasks assigned yet</p>
+
+    </div>
+
+</div>
+
+</div>

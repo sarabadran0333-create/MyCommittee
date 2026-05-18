@@ -1,0 +1,202 @@
+﻿@{
+    ViewData["Title"] = "Meetings";
+    Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .page-shell {
+            padding-top: 8px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            margin: 0;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .view-switch {
+            display: inline-flex;
+            align-items: center;
+            background: #f1f5f9;
+            border-radius: 16px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .view-btn {
+            border: none;
+            background: transparent;
+            color: #0f172a;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .view-btn.active {
+            background: white;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+        }
+
+        .create-btn {
+            background: #3b6ef5;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 12px 18px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .create-btn:hover {
+            background: #2f5ee0;
+            color: white;
+        }
+
+        .meetings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .meetings-table thead th {
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+            padding: 12px 10px 14px 10px;
+            border-bottom: 1px solid #dbe3ef;
+        }
+
+        .meetings-table tbody td {
+            padding: 16px 10px;
+            border-bottom: 1px solid #e8eef5;
+            color: #0f172a;
+            vertical-align: middle;
+        }
+
+        .meetings-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .meeting-title {
+            font-weight: 500;
+        }
+
+        .action-btn {
+            background: #3b6ef5;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 10px 16px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            background: #2f5ee0;
+            color: white;
+        }
+    </style>
+}
+
+<div class="page-shell">
+
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Meetings</h1>
+            <p class="page-subtitle">Schedule and manage committee meetings</p>
+        </div>
+
+        <div class="header-actions">
+            <div class="view-switch">
+                <button type="button" class="view-btn active">
+                    <i class="bi bi-list-ul"></i>
+                    <span>List</span>
+                </button>
+
+                <button type="button" class="view-btn">
+                    <i class="bi bi-calendar3"></i>
+                    <span>Calendar</span>
+                </button>
+            </div>
+
+            <a asp-controller="Chairman" asp-action="CreateMeeting" class="create-btn">
+                <i class="bi bi-plus-lg"></i>
+                <span>Create Meeting</span>
+            </a>
+        </div>
+    </div>
+
+    <table class="meetings-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Room</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td class="meeting-title">Budget Review Meeting</td>
+                <td>2/22/2026</td>
+                <td>10:00 AM</td>
+                <td>Conference Room A</td>
+                <td>Scheduled</td>
+                <td>
+                    <a asp-controller="Chairman" asp-action="MeetingDetails" class="action-btn">
+                        <i class="bi bi-eye"></i>
+                        <span>View Details</span>
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="meeting-title">Policy Discussion</td>
+                <td>2/23/2026</td>
+                <td>2:00 PM</td>
+                <td>Board Room</td>
+                <td>Scheduled</td>
+                <td>
+                    <a asp-controller="Chairman" asp-action="MeetingDetails" class="action-btn">
+                        <i class="bi bi-eye"></i>
+                        <span>View Details</span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

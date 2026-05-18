@@ -1,0 +1,266 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .page-shell {
+            padding-top: 8px;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            margin: 0 0 28px 0;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .profile-card {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+            margin-bottom: 28px;
+            max-width: 880px;
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            margin-bottom: 28px;
+        }
+
+        .profile-avatar {
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+            background: #3b6ef5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .profile-top-info h2 {
+            margin: 0 0 6px 0;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .profile-top-info p {
+            margin: 0 0 14px 0;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .photo-btn {
+            border: 1px solid #dbe3ef;
+            background: #fff;
+            color: #0f172a;
+            border-radius: 14px;
+            padding: 10px 16px;
+            font-weight: 500;
+        }
+
+        .photo-btn:hover {
+            background: #f8fafc;
+        }
+
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .form-group label i {
+            color: #334155;
+        }
+
+        .profile-input {
+            height: 56px;
+            border-radius: 16px;
+            border: 1px solid #dbe3ef;
+            font-size: 1rem;
+            color: #0f172a;
+            padding: 0 16px;
+        }
+
+        .profile-input:focus {
+            border-color: #3b6ef5;
+            box-shadow: 0 0 0 0.15rem rgba(59, 110, 245, 0.12);
+        }
+
+        .membership-card {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+            max-width: 880px;
+        }
+
+        .membership-title {
+            margin: 0 0 22px 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .membership-item {
+            background: #f4f7fc;
+            border-radius: 18px;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .membership-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .membership-info h5 {
+            margin: 0 0 6px 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .membership-info p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.98rem;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: #dcfce7;
+            color: #16a34a;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .profile-actions {
+            max-width: 880px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 28px;
+        }
+
+        .update-btn {
+            background: #3b6ef5;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 12px 22px;
+            font-weight: 600;
+        }
+
+        .update-btn:hover {
+            background: #2f5ee0;
+            color: white;
+        }
+    </style>
+}
+
+<div class="page-shell">
+
+    <h1 class="page-title">Profile</h1>
+    <p class="page-subtitle">Manage your personal information</p>
+
+    <div class="profile-card">
+
+        <div class="profile-top">
+            <div class="profile-avatar">JD</div>
+
+            <div class="profile-top-info">
+                <h2>John Doe</h2>
+                <p>Committee Coordinator</p>
+                <button class="photo-btn">Change Photo</button>
+            </div>
+        </div>
+
+        <div class="profile-form">
+
+            <div class="form-group">
+                <label><i class="bi bi-person"></i> Full Name</label>
+                <input type="text" class="form-control profile-input" value="John Doe" />
+            </div>
+
+            <div class="form-group">
+                <label><i class="bi bi-envelope"></i> Email</label>
+                <input type="email" class="form-control profile-input" value="john.doe@university.edu" />
+            </div>
+
+            <div class="form-group">
+                <label><i class="bi bi-telephone"></i> Phone</label>
+                <input type="text" class="form-control profile-input" value="+966 50 123 4567" />
+            </div>
+
+            <div class="form-group">
+                <label><i class="bi bi-briefcase"></i> Role</label>
+                <input type="text" class="form-control profile-input" value="Committee Coordinator" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="membership-card">
+        <h3 class="membership-title">Committee Memberships</h3>
+
+        <div class="membership-item">
+            <div class="membership-info">
+                <h5>Academic Affairs</h5>
+                <p>Active Member</p>
+            </div>
+            <span class="status-pill">Active</span>
+        </div>
+
+        <div class="membership-item">
+            <div class="membership-info">
+                <h5>Research Committee</h5>
+                <p>Active Member</p>
+            </div>
+            <span class="status-pill">Active</span>
+        </div>
+
+        <div class="membership-item">
+            <div class="membership-info">
+                <h5>Student Services</h5>
+                <p>Active Member</p>
+            </div>
+            <span class="status-pill">Active</span>
+        </div>
+    </div>
+
+    <div class="profile-actions">
+        <button class="update-btn">Update Info</button>
+    </div>
+
+</div>

@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Settings";
+    Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .page-shell {
+            padding-top: 8px;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            margin: 0 0 28px 0;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .settings-card {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 24px;
+            padding: 22px 26px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+
+        .settings-header i {
+            font-size: 1.1rem;
+        }
+
+        .settings-label {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .settings-select {
+            height: 48px;
+            border-radius: 14px;
+            border: 1px solid #dbe3ef;
+        }
+
+        .settings-select:focus {
+            border-color: #3b6ef5;
+            box-shadow: 0 0 0 0.15rem rgba(59, 110, 245, 0.12);
+        }
+
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .toggle-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .toggle-title {
+            font-weight: 500;
+            color: #0f172a;
+        }
+
+        .toggle-desc {
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        .form-switch .form-check-input {
+            width: 46px;
+            height: 24px;
+            cursor: pointer;
+        }
+    </style>
+}
+
+<div class="page-shell">
+
+    <h1 class="page-title">Settings</h1>
+    <p class="page-subtitle">Manage your application preferences</p>
+
+    <!-- Language -->
+    <div class="settings-card">
+        <div class="settings-header">
+            <i class="bi bi-globe"></i>
+            <span>Language</span>
+        </div>
+
+        <div class="settings-label">Select Language</div>
+
+        <select class="form-select settings-select">
+            <option selected>English</option>
+            <option>Arabic</option>
+        </select>
+    </div>
+
+    <!-- Appearance -->
+    <div class="settings-card">
+        <div class="settings-header">
+            <i class="bi bi-brightness-high"></i>
+            <span>Appearance</span>
+        </div>
+
+        <div class="settings-label">Theme</div>
+
+        <select class="form-select settings-select">
+            <option selected>Light</option>
+            <option>Dark</option>
+        </select>
+    </div>
+
+    <!-- Notifications -->
+    <div class="settings-card">
+        <div class="settings-header">
+            <span>Notifications</span>
+        </div>
+
+        <div class="toggle-row">
+            <div>
+                <div class="toggle-title">Push Notifications</div>
+                <div class="toggle-desc">Receive notifications about meetings and tasks</div>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" checked>
+            </div>
+        </div>
+
+        <div class="toggle-row">
+            <div>
+                <div class="toggle-title">Email Notifications</div>
+                <div class="toggle-desc">Receive email updates about committee activities</div>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" checked>
+            </div>
+        </div>
+
+    </div>
+
+</div>

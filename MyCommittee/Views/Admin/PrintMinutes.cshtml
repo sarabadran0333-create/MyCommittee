@@ -1,0 +1,204 @@
+﻿@{
+    ViewData["Title"] = "PrintMinutes";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    :root {
+        --brand-blue: #2563eb; /* نفس لون الأزرار في موقعك */
+        --dark-slate: #0f172a;
+    }
+
+    body {
+        background-color: #f1f5f9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 40px 0;
+    }
+
+    /* حاوية الورقة (A4) */
+    .print-card {
+        background: white;
+        max-width: 900px;
+        margin: 0 auto;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+    }
+
+    /* الجزء العلوي الزرق (Header) */
+    .card-header-custom {
+        background-color: var(--brand-blue);
+        color: white;
+        padding: 40px;
+        text-align: center;
+    }
+
+    .header-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    /* تفاصيل الاجتماع */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 30px 40px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .info-item i {
+            color: var(--brand-blue);
+            font-size: 1.2rem;
+        }
+
+    .info-label {
+        font-weight: 700;
+        color: var(--dark-slate);
+    }
+
+    /* محتوى المحضر (Minutes Text) */
+    .minutes-body {
+        padding: 40px;
+        min-height: 400px;
+    }
+
+    .section-title {
+        color: var(--brand-blue);
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+    .content-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #334155;
+        white-space: pre-line; /* للحفاظ على تنسيق النص والأسطر من الداتابيس */
+    }
+
+    /* التواقيع */
+    .signatures {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 40px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .sig-box {
+        border-top: 1px dashed #cbd5e1;
+        padding-top: 15px;
+        font-weight: 600;
+        color: #64748b;
+    }
+
+    /* شريط الأدوات العلوي (يختفي عند الطباعة) */
+    .no-print-zone {
+        max-width: 900px;
+        margin: 0 auto 20px auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @@media print {
+        .no-print-zone {
+            display: none !important;
+        }
+
+        body {
+            background: white;
+            padding: 0;
+        }
+
+        .print-card {
+            box-shadow: none;
+            border: none;
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+
+
+    <div class="no-print-zone">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-right"></i> Back
+        </a>
+        <button onclick="window.print()" class="btn btn-primary btn-lg" style="background-color: #2563eb;">
+            <i class="bi bi-printer"></i> Print
+        </button>
+    </div>
+
+    <div class="print-card">
+        <div class="card-header-custom">
+            <h1 class="header-title">The minutes of meeting</h1>
+            <p class="mb-0 opacity-75">Academic committees</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <i class="bi bi-bookmark-fill"></i>
+                <div>
+                    <span class="info-label">Title:</span>
+                    <span>@Model.MeetingTitle</span>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="bi bi-people-fill"></i>
+                <div>
+                    <span class="info-label">Committee:</span>
+                    <span>@(Model.Committee?.Title ?? "Untitled")</span>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="bi bi-calendar-event"></i>
+                <div>
+                    <span class="info-label">Date:</span>
+                    <span>@Model.MeetingTime.ToString("yyyy/MM/dd")</span>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="bi bi-geo-alt-fill"></i>
+                <div>
+                    <span class="info-label">Location:</span>
+                    <span>@Model.Place</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="minutes-body">
+            <h4 class="section-title">Details and token decision</h4>
+            <div class="content-text">
+                @if (Model.MinutesOfMeeting != null && !string.IsNullOrEmpty(Model.MinutesOfMeeting.Minutes))
+                {
+                    @Model.MinutesOfMeeting.Minutes
+                }
+                else
+                {
+                    <div class="text-center text-muted mt-5">
+                        <i class="bi bi-exclamation-circle fs-1"></i>
+                        <p class="mt-2">No Availabale minutes for this meeting</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="signatures">
+            <div class="sig-box">Committee creator signature</div>
+            <div class="sig-box">Committee Leader Signature</div>
+            
+        </div>
+    </div>

@@ -1,0 +1,296 @@
+﻿@{
+    ViewData["Title"] = "Archive";
+    Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .page-shell {
+            padding-top: 8px;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            margin: 0 0 28px 0;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .archive-card {
+            background: #fff;
+            border: 1px solid #dbe3ef;
+            border-radius: 24px;
+            padding: 24px 28px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        }
+
+        .archive-toolbar {
+            display: grid;
+            grid-template-columns: 1.4fr 0.7fr 0.7fr;
+            gap: 16px;
+            margin-bottom: 26px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        .left-icon {
+            left: 14px;
+        }
+
+        .right-icon {
+            right: 14px;
+        }
+
+        .archive-input,
+        .archive-select {
+            height: 52px;
+            border: 1px solid #dbe3ef;
+            border-radius: 14px;
+            font-size: 1rem;
+            color: #0f172a;
+            background: #fff;
+        }
+
+        .archive-input {
+            padding-left: 42px;
+        }
+
+        .archive-select {
+            padding-left: 14px;
+            padding-right: 38px;
+            appearance: none;
+        }
+
+        .archive-input:focus,
+        .archive-select:focus {
+            border-color: #3b6ef5;
+            box-shadow: 0 0 0 0.15rem rgba(59, 110, 245, 0.12);
+        }
+
+        .archive-item {
+            border: 1px solid #dbe3ef;
+            border-radius: 18px;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .archive-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .archive-left h5 {
+            margin: 0 0 10px 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .archive-meta {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            color: #64748b;
+            font-size: 0.98rem;
+        }
+
+        .meta-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 10px;
+            background: #eef2ff;
+            color: #3b6ef5;
+            font-weight: 500;
+        }
+
+        .archive-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-shrink: 0;
+            margin-left: 20px;
+        }
+
+        .preview-link {
+            color: #0f172a;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-link:hover {
+            color: #3b6ef5;
+        }
+
+        .download-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: 1px solid #dbe3ef;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #334155;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            background: #eef2ff;
+            color: #3b6ef5;
+        }
+    </style>
+}
+
+<div class="page-shell">
+
+    <h1 class="page-title">Archive</h1>
+    <p class="page-subtitle">Search and access historical records</p>
+
+    <div class="archive-card">
+
+        <div class="archive-toolbar">
+
+            <div class="input-wrap">
+                <i class="bi bi-search left-icon"></i>
+                <input type="text" class="form-control archive-input" placeholder="Search archives..." />
+            </div>
+
+            <div class="input-wrap">
+                <select class="form-select archive-select">
+                    <option>All Committees</option>
+                    <option>Finance Committee</option>
+                    <option>Research Committee</option>
+                    <option>Academic Affairs</option>
+                    <option>Student Services</option>
+                </select>
+                <i class="bi bi-chevron-down right-icon"></i>
+            </div>
+
+            <div class="input-wrap">
+                <select class="form-select archive-select">
+                    <option>All Types</option>
+                    <option>Minutes</option>
+                    <option>Documents</option>
+                    <option>Decisions</option>
+                </select>
+                <i class="bi bi-chevron-down right-icon"></i>
+            </div>
+
+        </div>
+
+        <div class="archive-item">
+            <div class="archive-left">
+                <h5>Budget Review Meeting Minutes</h5>
+                <div class="archive-meta">
+                    <span>Finance Committee</span>
+                    <span class="meta-pill">Minutes</span>
+                    <span>2/15/2026</span>
+                    <span>2.4 MB</span>
+                </div>
+            </div>
+
+            <div class="archive-actions">
+                <a href="#" class="preview-link">
+                    <i class="bi bi-eye"></i>
+                    <span>Preview</span>
+                </a>
+
+                <a href="#" class="download-btn">
+                    <i class="bi bi-download"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="archive-item">
+            <div class="archive-left">
+                <h5>Research Policy Document</h5>
+                <div class="archive-meta">
+                    <span>Research Committee</span>
+                    <span class="meta-pill">Documents</span>
+                    <span>2/10/2026</span>
+                    <span>1.8 MB</span>
+                </div>
+            </div>
+
+            <div class="archive-actions">
+                <a href="#" class="preview-link">
+                    <i class="bi bi-eye"></i>
+                    <span>Preview</span>
+                </a>
+
+                <a href="#" class="download-btn">
+                    <i class="bi bi-download"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="archive-item">
+            <div class="archive-left">
+                <h5>Academic Affairs Decision Log</h5>
+                <div class="archive-meta">
+                    <span>Academic Affairs</span>
+                    <span class="meta-pill">Decisions</span>
+                    <span>2/8/2026</span>
+                    <span>856 KB</span>
+                </div>
+            </div>
+
+            <div class="archive-actions">
+                <a href="#" class="preview-link">
+                    <i class="bi bi-eye"></i>
+                    <span>Preview</span>
+                </a>
+
+                <a href="#" class="download-btn">
+                    <i class="bi bi-download"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="archive-item">
+            <div class="archive-left">
+                <h5>Student Services Meeting Minutes</h5>
+                <div class="archive-meta">
+                    <span>Student Services</span>
+                    <span class="meta-pill">Minutes</span>
+                    <span>2/5/2026</span>
+                    <span>1.2 MB</span>
+                </div>
+            </div>
+
+            <div class="archive-actions">
+                <a href="#" class="preview-link">
+                    <i class="bi bi-eye"></i>
+                    <span>Preview</span>
+                </a>
+
+                <a href="#" class="download-btn">
+                    <i class="bi bi-download"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>

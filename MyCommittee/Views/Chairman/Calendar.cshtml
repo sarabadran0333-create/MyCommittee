@@ -1,0 +1,185 @@
+﻿@{
+    ViewData["Title"] = "Calendar";
+    Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
+}
+
+@section Styles {
+<style>
+
+.page-title{
+    font-size:2.2rem;
+    font-weight:700;
+}
+
+.page-subtitle{
+    color:#64748b;
+    margin-bottom:25px;
+}
+
+/* layout */
+
+.calendar-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+/* card */
+
+.card-box{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    border:1px solid #e2e8f0;
+}
+
+/* calendar */
+
+.calendar-header{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin-bottom:15px;
+}
+
+.nav-btn{
+    border:none;
+    background:#f1f5f9;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+}
+
+.month{
+    font-weight:600;
+}
+
+.calendar-days,
+.calendar-dates{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    text-align:center;
+    gap:10px;
+}
+
+.calendar-days div{
+    font-size:14px;
+    color:#64748b;
+}
+
+.calendar-dates div{
+    padding:10px;
+    border-radius:50%;
+}
+
+.active-day{
+    background:#3b6ef5;
+    color:white;
+}
+
+/* right side */
+
+.section-title{
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+.event-card{
+    border:1px solid #e2e8f0;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:10px;
+}
+
+.event-card small{
+    color:#64748b;
+}
+
+.empty{
+    text-align:center;
+    color:#94a3b8;
+    margin-top:20px;
+}
+
+</style>
+}
+
+<h1 class="page-title">Calendar</h1>
+<p class="page-subtitle">View all scheduled meetings and events</p>
+
+<div class="calendar-grid">
+
+<!-- LEFT: CALENDAR -->
+
+<div class="card-box">
+
+    <div class="calendar-header">
+        <button class="nav-btn"><i class="bi bi-chevron-left"></i></button>
+        <div class="month">April 2026</div>
+        <button class="nav-btn"><i class="bi bi-chevron-right"></i></button>
+    </div>
+
+    <!-- Days -->
+    <div class="calendar-days">
+        <div>Su</div><div>Mo</div><div>Tu</div><div>We</div>
+        <div>Th</div><div>Fr</div><div>Sa</div>
+    </div>
+
+    <!-- Dates -->
+    <div class="calendar-dates">
+
+        <div>29</div><div>30</div><div>31</div><div>1</div><div>2</div><div>3</div><div>4</div>
+
+        <div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div>
+
+        <div>12</div><div class="active-day">13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div>
+
+        <div>19</div><div>20</div><div>21</div><div>22</div><div>23</div><div>24</div><div>25</div>
+
+        <div>26</div><div>27</div><div>28</div><div>29</div><div>30</div><div>1</div><div>2</div>
+
+    </div>
+
+</div>
+
+<!-- RIGHT SIDE -->
+
+<div>
+
+    <!-- Events Today -->
+    <div class="card-box">
+        <div class="section-title">Events on Apr 13</div>
+
+        <div class="empty">No events scheduled</div>
+    </div>
+
+    <!-- Upcoming -->
+    <div class="card-box">
+        <div class="section-title">Upcoming Events</div>
+
+        <div class="event-card">
+            <div>Budget Review Meeting</div>
+            <small>2/22/2026 • 10:00 AM</small>
+        </div>
+
+        <div class="event-card">
+            <div>Policy Discussion</div>
+            <small>2/23/2026 • 2:00 PM</small>
+        </div>
+
+        <div class="event-card">
+            <div>Research Updates</div>
+            <small>2/25/2026 • 11:00 AM</small>
+        </div>
+
+        <div class="event-card">
+            <div>Student Services Review</div>
+            <small>2/26/2026 • 3:00 PM</small>
+        </div>
+
+    </div>
+
+</div>
+
+</div>

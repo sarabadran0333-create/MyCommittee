@@ -2,6 +2,10 @@
     ViewData["Title"] = "Meetings";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<!-- FullCalendar CSS & JS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
 
 @section Styles {
     <style>
@@ -46,10 +50,10 @@
             gap: 10px;
         }
 
-            .view-btn.active {
-                background: white;
-                box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-            }
+        .view-btn.active {
+            background: white;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+        }
 
         .meetings-table-wrap {
             background: transparent;
@@ -62,26 +66,26 @@
             background: transparent;
         }
 
-            .meetings-table thead th {
-                text-align: left;
-                font-size: 1rem;
-                font-weight: 600;
-                color: #0f172a;
-                padding: 10px 10px 14px 10px;
-                border-bottom: 1px solid #dbe3ef;
-            }
+        .meetings-table thead th {
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+            padding: 10px 10px 14px 10px;
+            border-bottom: 1px solid #dbe3ef;
+        }
 
-            .meetings-table tbody td {
-                padding: 16px 10px;
-                font-size: 1rem;
-                color: #0f172a;
-                border-bottom: 1px solid #dbe3ef;
-                vertical-align: middle;
-            }
+        .meetings-table tbody td {
+            padding: 16px 10px;
+            font-size: 1rem;
+            color: #0f172a;
+            border-bottom: 1px solid #dbe3ef;
+            vertical-align: middle;
+        }
 
-            .meetings-table tbody tr:last-child td {
-                border-bottom: none;
-            }
+        .meetings-table tbody tr:last-child td {
+            border-bottom: none;
+        }
 
         .meeting-title {
             font-weight: 500;
@@ -100,28 +104,29 @@
             text-decoration: none;
         }
 
-            .action-btn:hover {
-                background: #2f5ee0;
-                color: white;
-            }
+        .action-btn:hover {
+            background: #2f5ee0;
+            color: white;
+        }
 
         .page-shell {
             padding-top: 8px;
         }
 
+      
+            .meetings-header {
+                flex-direction: column;
+                gap: 16px;
+            }
 
-        .meetings-header {
-            flex-direction: column;
-            gap: 16px;
-        }
+            .table-responsive {
+                overflow-x: auto;
+            }
 
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .meetings-table {
-            min-width: 950px;
-        }
+            .meetings-table {
+                min-width: 950px;
+            }
+       
     </style>
 }
 
@@ -161,50 +166,137 @@
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td class="meeting-title">Budget Review Meeting</td>
-                        <td>Finance Committee</td>
-                        <td>2/22/2026</td>
-                        <td>10:00 AM</td>
-                        <td>Conference Room A</td>
-                        <td>
-                            <a href="#" class="action-btn">
-                                <i class="bi bi-eye"></i>
-                                <span>View Details</span>
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="meeting-title">Policy Discussion</td>
-                        <td>Academic Affairs</td>
-                        <td>2/23/2026</td>
-                        <td>2:00 PM</td>
-                        <td>Board Room</td>
-                        <td>
-                            <a href="#" class="action-btn">
-                                <i class="bi bi-eye"></i>
-                                <span>View Details</span>
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="meeting-title">Research Updates</td>
-                        <td>Research Committee</td>
-                        <td>2/25/2026</td>
-                        <td>11:00 AM</td>
-                        <td>Conference Room B</td>
-                        <td>
-                            <a href="#" class="action-btn">
-                                <i class="bi bi-eye"></i>
-                                <span>View Details</span>
-                            </a>
-                        </td>
-                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="meeting-title">@item.MeetingTitle</td>
+                            <td>@(item.Committee?.Title ?? "No Committee")</td>
+                            <td>@item.MeetingTime.ToString("MM/dd/yyyy")</td>  
+                            <td>@item.MeetingTime.ToString("hh:mm tt")</td>
+                            <td>@item.Place</td>
+                            <td>
+                                <a asp-action="PrintMinutes" asp-route-id="@item.CalendarId" class="action-btn">
+                                    <i class="bi bi-eye"></i>
+                                    <span>View Details</span>
+                                </a>
+                            </td>
+                        </tr>
+                    } 
                 </tbody>
             </table>
+            
         </div>
+    </div>
+    <div id="calendar-view" style="display:none; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div id="calendar"></div>
     </div>
 
 </div>
+<script>
+    var calendar; // تعريف المتغير عالمياً
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const listBtn = document.querySelectorAll('.view-btn')[0];
+        const calendarBtn = document.querySelectorAll('.view-btn')[1];
+        const tableView = document.querySelector('.meetings-table-wrap');
+        const calendarView = document.getElementById('calendar-view');
+
+        //  البيانات من الموديل
+        const myEvents = [
+            @foreach (var item in Model)
+            {
+                    <text>
+                    {
+                        id: '@item.CalendarId',
+                        title: '@item.MeetingTitle',
+                        start: '@item.MeetingTime.ToString("yyyy-MM-ddTHH:mm:ss")',
+                        extendedProps: {
+                            committee: '@(item.Committee?.Title ?? "N/A")',
+                            room: '@item.Place'
+                        },
+                        backgroundColor: '#2563eb', // لون الإشارة على التاريخ
+                        borderColor: '#1e40af'
+                    },
+                    </text>
+            }
+        ];
+
+        // تهيئة التقويم ولكن لا نعرضه الآن
+        var calendarEl = document.getElementById('calendar');
+        calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek'
+            },
+            events: myEvents,
+            // عند الضغط على الاجتماع تظهر تفاصيله (نفس الجدول)
+            eventClick: function(info) {
+                alert(
+                    "Meeting: " + info.event.title +
+                    "\nCommittee: " + info.event.extendedProps.committee +
+                    "\nRoom: " + info.event.extendedProps.room +
+                    "\nDate: " + info.event.start.toLocaleString()
+                );
+                // إذا أردتِ الانتقال لصفحة التفاصيل فوراً فكي التعليق عن السطر التالي:
+                // window.location.href = '/Admin/MeetingMinutes/' + info.event.id;
+            }
+        });
+
+        calendarBtn.addEventListener('click', function() {
+            tableView.style.display = 'none';
+            calendarView.style.display = 'block';
+            calendarBtn.classList.add('active');
+            listBtn.classList.remove('active');
+
+            // سطر مهم جداً لإجبار التقويم على الرسم عند الظهور
+            calendar.render();
+        });
+
+        listBtn.addEventListener('click', function() {
+            calendarView.style.display = 'none';
+            tableView.style.display = 'block';
+            listBtn.classList.add('active');
+            calendarBtn.classList.remove('active');
+        });
+            calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        displayEventTime: true, // لإظهار وقت الاجتماع بجانب العنوان
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+            meridiem: 'short'
+        },
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,dayGridWeek'
+        },
+        events: myEvents, // البيانات القادمة من الـforeach
+
+        // تحسين شكل الإشارة (Event)
+        eventDidMount: function(info) {
+                info.el.style.cursor = 'pointer'; // تغيير شكل الماوس ليد عند التمرير
+                // إضافة Tooltip بسيط يظهر عند الوقوف بالماوس
+                info.el.title = "Committee: " + info.event.extendedProps.committee;
+            },
+
+            // عند الضغط على الموعد في التقويم
+            eventClick: function(info) {
+                // بدلاً من الـ Alert، سنستخدم الـ Modal الذي جهزناه سابقاً
+                document.getElementById('modalTitle').innerText = info.event.title;
+                document.getElementById('modalCommittee').innerText = info.event.extendedProps.committee;
+                document.getElementById('modalRoom').innerText = info.event.extendedProps.room;
+                document.getElementById('modalDate').innerText = info.event.start.toLocaleString();
+
+                // ربط زر "View Minutes" بالصفحة الصحيحة
+                document.getElementById('modalLink').href = '/Admin/MeetingMinutes/' + info.event.id;
+
+                var myModal = new bootstrap.Modal(document.getElementById('meetingModal'));
+                myModal.show();
+            }
+        });
+    });
+
+</script>

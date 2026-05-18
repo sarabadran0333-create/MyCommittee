@@ -1,7 +1,6 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
 }
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
@@ -179,19 +178,18 @@
         }
     </style>
 }
+<script>
 
-    <script>
-        
     document.addEventListener("DOMContentLoaded", () => {
         const counters = document.querySelectorAll('.counter');
-        
+
         counters.forEach(counter => {
             const updateCount = () => {
                 const target = +counter.getAttribute('data-target');
                 const count = +counter.innerText;
 
                 // سرعة العداد: كل ما صغر الرقم زادت السرعة
-                const speed = 100; 
+                const speed = 100;
                 const increment = target / speed;
 
                 if (count < target) {
@@ -205,41 +203,30 @@
         });
     });
 
-    </script>
-
+</script>
 
 <div class="page-shell">
 
     <h1 class="page-title">Dashboard</h1>
-    <!-- بدنا نحفظ معلومات الدخول بسيشن عشان نقدر نسترجعها هنا-->
-    <p class="page-subtitle">Welcome back, @HttpContextAccessor.HttpContext.Session.GetString("UserName")  </p> 
+    <p class="page-subtitle">Welcome back, @HttpContextAccessor.HttpContext.Session.GetString("UserName")</p>
 
     <div class="stats-row">
 
         <div class="stat-card">
             <div>
-                <div class="stat-label">Total Committees</div>
-                <div class="stat-value counter" id="committee-count" data-target="@ViewBag.TotalCommittees"> 0 </div>
+                <div class="stat-label">My Committees</div>
+                <divclass ="stat-value counter" id="committee-count" data-target="@ViewBag.TotalCommittees"> 0 </div>
             </div>
             <div class="stat-icon icon-blue">
                 <i class="bi bi-people"></i>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div>
-                <div class="stat-label">Total Members</div>
-                <div class="stat-value counter" id="member-count" data-target="@ViewBag.TotalMembers">0 </div>
-            </div>
-            <div class="stat-icon icon-green">
-                <i class="bi bi-person-plus"></i>
-            </div>
-        </div>
 
         <div class="stat-card">
             <div>
-                <div class="stat-label">Upcoming Meetings</div>
-                <div class="stat-value counter" id="upComingMeeting-count" data-target="@ViewBag.TotalUpcomingMeetings">0</div>
+                <div class="stat-label">Next Meetings</div>
+            <div class="stat-value counter" id="upComingMeeting-count" data-target="@ViewBag.TotalUpcomingMeetings">0</div>
             </div>
             <div class="stat-icon icon-yellow">
                 <i class="bi bi-calendar-event"></i>
@@ -248,11 +235,11 @@
 
         <div class="stat-card">
             <div>
-                <div class="stat-label">Final Minutes</div>
-                <div class="stat-value counter" id="minutes-count" data-target="@ViewBag.TotalMinutes">0</div>
+                <div class="stat-label">Pending Approvals</div>
+                <div class="stat-value">5</div>
             </div>
             <div class="stat-icon icon-red">
-                <i class="bi bi-file-earmark-text"></i>
+                <i class="bi bi-check2-square"></i>
             </div>
         </div>
 
@@ -270,23 +257,23 @@
                     <th>Date</th>
                 </tr>
             </thead>
-            <tbody>
-                @if (ViewBag.RecentActivities != null)
+        <tbody>
+            @if (ViewBag.RecentActivities != null)
+            {
+                foreach (var activity in ViewBag.RecentActivities)
                 {
-                    foreach (var activity in ViewBag.RecentActivities)
-                    {
-                        <tr>
-                            @* ملاحظة: تأكدي أن أسماء الخصائص تطابق موديل Action عندك *@
-                            <td>@activity.Member.Username</td> @* أو Username إذا قمتِ بربطه *@
-                            <td>@activity.Details</td>
-                            <td>@activity.Committee.Title</td>
-                            <td>@activity.GetTimeAgo()</td>
-                        </tr>
-                    }
+                    <tr>
+                        @* ملاحظة: تأكدي أن أسماء الخصائص تطابق موديل Action عندك *@
+                        <td>@activity.Member.Username</td> @* أو Username إذا قمتِ بربطه *@
+                        <td>@activity.Details</td>
+                        <td>@activity.Committee.Title</td>
+                        <td>@activity.GetTimeAgo()</td>
+                    </tr>
                 }
-               
-                
-            </tbody>
+            }
+
+
+        </tbody>
         </table>
     </div>
 
@@ -294,53 +281,48 @@
 
         <div class="bottom-col">
             <div class="section-card">
-                <h3 class="section-title">Committees Membership</h3>
+                <h3 class="section-title">My Committees</h3>
 
-                
+                <div class="list-item-card">
+                    <div>
+                        <p class="list-item-title">Academic Affairs</p>
+                    </div>
+                    <span class="status-pill">Active</span>
+                </div>
 
-                    <!-- -------------------------------- -->
-                    @if (ViewBag.CommitteesMembership != null)
-                    {
-                        foreach (var item in ViewBag.CommitteesMembership)
-                        {
-                        <div class="list-item-card">
-                            <div>
-                                <p class="list-item-title">@item.CommitteeName</p>
-                                <p class="list-item-subtitle">@item.MemberCount Members</p>
-                            </div>
-                            @* <span class="status-pill">@item.Status</span> *@
-                        </div>
-                        }
-                    }
+                <div class="list-item-card">
+                    <div>
+                        <p class="list-item-title">Research Committee</p>
+                    </div>
+                    <span class="status-pill">Active</span>
+                </div>
 
-                    <!-- ////////////////////////// -->
-
+                <div class="list-item-card">
+                    <div>
+                        <p class="list-item-title">Student Services</p>
+                    </div>
+                    <span class="status-pill">Active</span>
+                </div>
             </div>
         </div>
 
         <div class="bottom-col">
             <div class="section-card">
                 <h3 class="section-title">Upcoming Meetings</h3>
-                @if (Model != null && Model.Any())
-                {
-                    @foreach(var meeting in Model)
-                    {
-                        <div class="list-item-card">
-                            <div>
-                                <p class="list-item-title">@meeting.MeetingTitle</p>
-                                <p class="list-item-subtitle"> @meeting.MeetingTime.ToString("MMM dd,yyyy - hh:mm tt") </p>
-                            </div>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="list-item-card">
-                        <div>
-                            <p class="list-item-subtitle"> No upcoming meetings </p>
-                        </div>
+
+                <div class="list-item-card">
+                    <div>
+                        <p class="list-item-title">Budget Review</p>
+                        <p class="list-item-subtitle">Feb 22, 2026 - 10:00 AM</p>
                     </div>
-                }
+                </div>
+
+                <div class="list-item-card">
+                    <div>
+                        <p class="list-item-title">Policy Discussion</p>
+                        <p class="list-item-subtitle">Feb 23, 2026 - 2:00 PM</p>
+                    </div>
+                </div>
             </div>
         </div>
 

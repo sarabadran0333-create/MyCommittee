@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using MyCommittee.Data;
 using MyCommittee.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor(); //--------------------
+builder.Services.AddSession();// -------------------------------------------------------------------------------------------------
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -15,6 +19,14 @@ builder.Services.AddScoped<ICalendarRepository, CalendarRepository>();
 builder.Services.AddScoped<IDecisionRepository, DecisionRepository>();
 builder.Services.AddScoped<IMinutesOfMeetingRepository, MinutesOfMeetingRepository>();
 
+
+
+// 1.??? ?? ??????? ?? appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// 2. ????? ??? DbContext ??????? SQL Server
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 
 var app = builder.Build();
@@ -31,6 +43,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 

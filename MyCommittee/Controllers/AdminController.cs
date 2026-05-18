@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyCommittee.Data;
 using MyCommittee.Models;
+using MyCommittee.ViewModels;
+using System.Linq;
+
 
 public class AdminController : Controller
 {
@@ -14,15 +18,46 @@ public class AdminController : Controller
     // ================= Dashboard =================
     public IActionResult Dashboard()
     {
-        var model = new AdminDashboardViewModel
-        {
-            MyCommittees = 5,
-            CommitteeMembers = 20,
-            UpcomingMeetings = 3,
-            PendingMinutes = 2
-        };
+        int totalCommitteeCount = _context.Committees.Count();
+        ViewBag.TotalCommittees = totalCommitteeCount;
 
-        return View(model);
+        int totalMemberCount = _context.Members.Count();
+        ViewBag.TotalMembers = totalMemberCount;
+
+
+        var upcomingMeetings = _context.Calendars.Where(m => m.MeetingTime > DateTime.Now).OrderBy(m => m.MeetingTime).Take(3).ToList();
+
+        int totalUpcomingMeetingCount = upcomingMeetings.Count();
+        ViewBag.TotalUpcomingMeetings = totalUpcomingMeetingCount;
+
+        int totalMinutesCount = _context.MinutesOfMeetings.Count();
+        ViewBag.TotalMinutes = totalMinutesCount;
+
+        var recentActivities = _context.Actions
+            .Include(a => a.Member)
+            .Include(a => a.Committee)
+         .OrderByDescending(a => a.Date) // الأحدث أولاً
+         .Take(5) // عرض آخر 5 أنشطة
+         .ToList();
+
+        ViewBag.RecentActivities = recentActivities;
+
+
+        // جلب اللجان مع عد أعضائها من جدول الربط
+        var committeeMembership = _context.Committees
+            .Select(c => new {
+                CommitteeName = c.Title,
+                // هنا نعد كم مرة ظهر رقم اللجنة في جدول CommitteeMembers
+                MemberCount = _context.CommitteeMembers.Count(cm => cm.CommitteeId == c.CommitteeId)
+
+            })
+            .OrderByDescending(c => c.MemberCount)
+            .Take(3)
+            .ToList();
+
+        ViewBag.CommitteesMembership = committeeMembership;
+
+        return View(upcomingMeetings);
     }
 
     // ================= Committees =================
@@ -101,7 +136,13 @@ public class AdminController : Controller
     // ================= Pages =================
     public IActionResult Meetings()
     {
-        return View();
+        var meetingsList = _context.Calendars
+                                .Include(m => m.Committee)
+                                .Include(c => c.MinutesOfMeeting)
+                                .Where(c => c.MeetingTime < DateTime.Now)
+                                .OrderByDescending(c => c.MeetingTime)
+                                .ToList();
+        return View(meetingsList);
     }
 
     public IActionResult Minutes()
@@ -362,5 +403,21 @@ public class AdminController : Controller
         _context.SaveChanges();
 
         return Ok();
+    }
+
+    // هذا الـ Action هو المسؤول عن استقبال طلب الطباعة
+    public async Task<IActionResult> PrintMinutes(int id)
+    {
+        // بيانات الاجتماع مع اللجنة ومع المحضر المرتبط به
+        var meeting = await _context.Calendars
+            .Include(c => c.Committee)
+            .Include(c => c.MinutesOfMeeting) // هذا مهم جداً لجلب نص المحضر
+            .FirstOrDefaultAsync(m => m.CalendarId == id);
+
+        if (meeting == null)
+        {
+            return NotFound();
+        }
+        return View(meeting);
     }
 }
