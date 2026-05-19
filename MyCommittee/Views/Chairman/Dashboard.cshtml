@@ -181,7 +181,7 @@
 <script>
 
     document.addEventListener("DOMContentLoaded", () => {
-        const counters = document.querySelectorAll('.counter');
+        const counters = document.querySelectorAll('.counter'); // class name must Be "counter"
 
         counters.forEach(counter => {
             const updateCount = () => {
@@ -212,38 +212,50 @@
 
     <div class="stats-row">
 
-        <div class="stat-card">
-            <div>
-                <div class="stat-label">My Committees</div>
-                <divclass ="stat-value counter" id="committee-count" data-target="@ViewBag.TotalCommittees"> 0 </div>
-            </div>
-            <div class="stat-icon icon-blue">
-                <i class="bi bi-people"></i>
-            </div>
+    <div class="stat-card">
+        <div>
+            <div class="stat-label">My Committees</div>
+                <div class="stat-value counter" id="committee-count" data-target="@ViewBag.CommitteesCount">0 </div>
         </div>
-
-
-        <div class="stat-card">
-            <div>
-                <div class="stat-label">Next Meetings</div>
-            <div class="stat-value counter" id="upComingMeeting-count" data-target="@ViewBag.TotalUpcomingMeetings">0</div>
-            </div>
-            <div class="stat-icon icon-yellow">
-                <i class="bi bi-calendar-event"></i>
-            </div>
+        <div class="stat-icon icon-blue">
+            <i class="bi bi-people"></i>
         </div>
-
-        <div class="stat-card">
-            <div>
-                <div class="stat-label">Pending Approvals</div>
-                <div class="stat-value">5</div>
-            </div>
-            <div class="stat-icon icon-red">
-                <i class="bi bi-check2-square"></i>
-            </div>
-        </div>
-
     </div>
+
+    <div class="stat-card">
+        <div>
+            <div class="stat-label">Committee Members</div>
+                <div class="stat-value counter" data-target="@ViewBag.TotalMembersCount">0</div>
+        </div>
+        <div class="stat-icon icon-green">
+            <i class="bi bi-person-plus"></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <div class="stat-label">Next Meetings</div>
+                <div class="stat-value counter " data-target="@ViewBag.NextMeetingsCount">0</div>
+        </div>
+        <div class="stat-icon icon-yellow">
+            <i class="bi bi-calendar-event"></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <div class="stat-label">Pending Approvals</div>
+            <div class="stat-value">5</div>
+        </div>
+        <div class="stat-icon icon-red">
+            <i class="bi bi-check2-square"></i>
+        </div>
+    </div>
+
+</div>
+
+
+    
 
     <div class="section-card">
         <h3 class="section-title">Recent Activity</h3>

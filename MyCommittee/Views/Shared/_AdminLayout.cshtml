@@ -139,14 +139,7 @@
                 <i class="bi bi-calendar-event"></i> Meetings
             </a>
 
-            <a asp-controller="Admin" asp-action="Minutes"
-               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Minutes" ? "active" : "")">
-                <i class="bi bi-file-earmark-text"></i> Minutes
-            </a>
-            <a asp-controller="Admin" asp-action="Notifications"
-               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Notifications" ? "active" : "")">
-                <i class="bi bi-bell"></i> Notifications
-            </a>
+           
             <a asp-controller="Admin" asp-action="Settings"
                class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Settings" ? "active" : "")">
                 <i class="bi bi-gear"></i> Settings

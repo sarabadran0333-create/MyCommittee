@@ -11,7 +11,6 @@ using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 
 
-
 namespace MyCommittee.Controllers
 {
     public class AccountController : Controller
@@ -34,9 +33,13 @@ namespace MyCommittee.Controllers
             m.Username == model.Username &&
             m.Password == model.Password);
 
+
                 if (user != null)
                 {
 
+                    
+                    HttpContext.Session.SetString("UserName", user.Username);
+                    HttpContext.Session.SetInt32("UserId", user.JobId);
                     int userRole = user.RoleId;
                     if (userRole == 1)
                     {
