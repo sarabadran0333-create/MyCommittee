@@ -41,7 +41,7 @@ namespace MyCommittee.Controllers
             var recentActivities = _context.Actions
                                .Include(a => a.Committee) // جلب بيانات اللجنة المرتبطة بـ CommitteeId
                                .Include(a => a.Member)    // جلب بيانات العضو المرتبطة بـ JobId
-                               .Where(a => chairmanCommitteeIds.Contains(a.CommitteeId)) // الفلترة لحصر الأنشطة بلجان الليدر فقط 
+                               .Where(a => chairmanCommitteeIds.Contains(a.CommitteeId)) // الفلترة لحصر الأنشطة بلجان الليدر فقط 🌟
                                .OrderByDescending(a => a.Date) // ترتيب من الأحدث للأقدم
                                .Take(5) // أخذ آخر 5 حركات فقط
                                .ToList(); 
@@ -82,24 +82,7 @@ namespace MyCommittee.Controllers
         }
         public IActionResult Meetings()
         {
-            int? userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var userCommitteeIds = _context.CommitteeMembers
-                                   .Where(cm => cm.JobId == userId)
-                                   .Select(cm => cm.CommitteeId)
-                                   .ToList();
-
-            var meetingsList = _context.Calendars
-                               .Include(m => m.Committee)
-                               .Where(m => userCommitteeIds.Contains(m.CommitteeId))
-                               .OrderByDescending(m => m.MeetingTime)
-                               .ToList();
-
-            return View(meetingsList);
+            return View();
         }
 
         public IActionResult CreateMeeting()
