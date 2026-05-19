@@ -26,10 +26,25 @@ namespace MyCommittee.Controllers
             ViewBag.CommitteesCount = committeesCount;
 
             //تحديد اللجان اللي هاد اليوزر هو الليدر عليها
+            //--------------------------------------------------------
             var chairmanCommitteeIds = _context.CommitteeMembers
                                        .Where(c => c.JobId == userId)
                                        .Select(c => c.CommitteeId)
                                        .ToList();
+            //----------------------------------------------------
+            var chairmanCommittees = _context.Committees
+                                     .Where(c => chairmanCommitteeIds.Contains(c.CommitteeId)) 
+                                     .ToList();
+
+            ViewBag.MyCommitteesList = chairmanCommittees;
+
+            var recentActivities = _context.Actions
+                               .Include(a => a.Committee) // جلب بيانات اللجنة المرتبطة بـ CommitteeId
+                               .Include(a => a.Member)    // جلب بيانات العضو المرتبطة بـ JobId
+                               .Where(a => chairmanCommitteeIds.Contains(a.CommitteeId)) // الفلترة لحصر الأنشطة بلجان الليدر فقط 🌟
+                               .OrderByDescending(a => a.Date) // ترتيب من الأحدث للأقدم
+                               .Take(5) // أخذ آخر 5 حركات فقط
+                               .ToList(); 
 
             int totalMembersCount = _context.CommitteeMembers
                                     .Where(cm => chairmanCommitteeIds.Contains(cm.CommitteeId))
@@ -44,7 +59,16 @@ namespace MyCommittee.Controllers
                                     .Count(m => chairmanCommitteeIds.Contains(m.CommitteeId)
                                              && m.MeetingTime > DateTime.Now);
             ViewBag.NextMeetingsCount = nextMeetingsCount;
-            return View();
+
+            var upcomingMeetings = _context.Calendars
+                                   .Where(m => chairmanCommitteeIds.Contains(m.CommitteeId)
+                                            && m.MeetingTime > DateTime.Now)
+                                   .OrderBy(m => m.MeetingTime) 
+                                   .ToList();
+            ViewBag.UpcomingMeetings = upcomingMeetings;
+
+
+            return View(recentActivities);
         }
         
    

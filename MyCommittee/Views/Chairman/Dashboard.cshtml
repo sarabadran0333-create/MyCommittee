@@ -4,7 +4,8 @@
 }
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-@model IEnumerable<MyCommittee.Models.Calendar>
+@model IEnumerable<MyCommittee.Models.Actions>
+
 
 @section Styles {
     <style>
@@ -269,23 +270,39 @@
                     <th>Date</th>
                 </tr>
             </thead>
-        <tbody>
-            @if (ViewBag.RecentActivities != null)
-            {
-                foreach (var activity in ViewBag.RecentActivities)
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var actions in Model)
+                    {
+                        <tr>
+                            <td>
+                                @(actions.Member != null ?  actions.Member.Username : "Unknown User")
+                            </td>
+
+                            <td>
+                                @actions.Details
+                            </td>
+
+                            <td >
+                                @(actions.Committee != null ? actions.Committee.Title : "N/A")
+                            </td>
+
+                            <td>
+                                @actions.Date.ToString("yyyy-MM-dd")
+                            </td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        @* ملاحظة: تأكدي أن أسماء الخصائص تطابق موديل Action عندك *@
-                        <td>@activity.Member.Username</td> @* أو Username إذا قمتِ بربطه *@
-                        <td>@activity.Details</td>
-                        <td>@activity.Committee.Title</td>
-                        <td>@activity.GetTimeAgo()</td>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            <i class="bi bi-info-circle me-1"></i> No recent activities found for your committees.
+                        </td>
                     </tr>
                 }
-            }
-
-
-        </tbody>
+            </tbody>
         </table>
     </div>
 
@@ -294,27 +311,26 @@
         <div class="bottom-col">
             <div class="section-card">
                 <h3 class="section-title">My Committees</h3>
-
-                <div class="list-item-card">
-                    <div>
-                        <p class="list-item-title">Academic Affairs</p>
+                @if (ViewBag.MyCommitteesList != null && ((List<MyCommittee.Models.Committee>)ViewBag.MyCommitteesList).Any())
+                {
+                    foreach (var committee in ViewBag.MyCommitteesList)
+                    {
+                        <div class="list-item-card">
+                            <div>
+                                <p class="list-item-title">@committee.Title</p>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center text-muted py-3">
+                        <i class="bi bi-info-circle me-1"></i> No committees found for you.
                     </div>
-                    <span class="status-pill">Active</span>
-                </div>
+                }
+                
 
-                <div class="list-item-card">
-                    <div>
-                        <p class="list-item-title">Research Committee</p>
-                    </div>
-                    <span class="status-pill">Active</span>
-                </div>
-
-                <div class="list-item-card">
-                    <div>
-                        <p class="list-item-title">Student Services</p>
-                    </div>
-                    <span class="status-pill">Active</span>
-                </div>
+               
             </div>
         </div>
 
@@ -322,19 +338,32 @@
             <div class="section-card">
                 <h3 class="section-title">Upcoming Meetings</h3>
 
-                <div class="list-item-card">
-                    <div>
-                        <p class="list-item-title">Budget Review</p>
-                        <p class="list-item-subtitle">Feb 22, 2026 - 10:00 AM</p>
+                @if (ViewBag.UpcomingMeetings != null && ((List<MyCommittee.Models.Calendar>)ViewBag.UpcomingMeetings).Any())
+                {
+                    foreach (var meeting in ViewBag.UpcomingMeetings)
+                    {
+                       
+                
+                        <div class="list-item-card">
+                            <div>
+                                <p class="list-item-title"> @meeting.MeetingTitle</p>
+                                <div>
+                                  
+                                    <p class="list-item-subtitle">@meeting.MeetingTime.ToString("MMM dd, yyyy - hh:mm tt")</p>
+                                </div>
+                                                               
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center text-muted py-4">
+                        <i class="bi bi-calendar-x me-1"></i> No upcoming meetings scheduled.
                     </div>
-                </div>
+                }
 
-                <div class="list-item-card">
-                    <div>
-                        <p class="list-item-title">Policy Discussion</p>
-                        <p class="list-item-subtitle">Feb 23, 2026 - 2:00 PM</p>
-                    </div>
-                </div>
+                
             </div>
         </div>
 
