@@ -70,13 +70,55 @@ namespace MyCommittee.Controllers
 
             return View(recentActivities);
         }
-        
-   
-    public IActionResult Committees()
+
+
+        public IActionResult Committees()
         {
-            return View();
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var committees = _context.CommitteeMembers
+                .Where(cm => cm.JobId == userId)
+                .Join(_context.Committees,
+                      cm => cm.CommitteeId,
+                      c => c.CommitteeId,
+                      (cm, c) => new
+                      {
+                          c.CommitteeId,
+                          c.Title,
+                          c.Start,
+                          c.End,
+                          c.TypeId,
+
+                          MembersCount = _context.CommitteeMembers
+                              .Count(x => x.CommitteeId == c.CommitteeId),
+
+                          Members = _context.CommitteeMembers
+                              .Where(x => x.CommitteeId == c.CommitteeId)
+                              .Join(_context.Members,
+                                    x => x.JobId,
+                                    m => m.JobId,
+                                    (x, m) => m.Username)
+                              .ToList(),
+
+                          Permissions = _context.Permissions
+                        .Where(p => p.CommitteeId == c.CommitteeId)
+                         .Select(p => new
+                          {
+                          p.Title,
+                          p.Description
+                           })
+                     .ToList()
+                      })
+                .ToList();
+
+            return View(committees);
         }
-    public IActionResult CommitteeMembers()
+        public IActionResult CommitteeMembers()
         {
             return View();
         }

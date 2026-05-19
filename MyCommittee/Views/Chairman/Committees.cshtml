@@ -1,4 +1,5 @@
-﻿@{
+﻿@model dynamic
+@{
     ViewData["Title"] = "My Committees";
     Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
 }
@@ -101,34 +102,129 @@
                 <tr>
                     <th>Committee Name</th>
                     <th>Category</th>
-                    <th>Created Date</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Members Count</th>
                     <th>Action</th>
                 </tr>
             </thead>
-
             <tbody>
-                <tr>
-                    <td class="committee-name">Academic Affairs</td>
-                    <td><span class="category-pill">Academic</span></td>
-                    <td>12/1/2025</td>
-                    <td>12</td>
-                    <td>
-                        <a asp-controller="Chairman" asp-action="CommitteeMembers" class="view-btn">View</a>
-                    </td>
-                </tr>
 
-                <tr>
-                    <td class="committee-name">Research Committee</td>
-                    <td><span class="category-pill">Research</span></td>
-                    <td>11/15/2025</td>
-                    <td>8</td>
-                    <td>
-                        <a asp-controller="Chairman" asp-action="CommitteeMembers" class="view-btn">View</a>
-                    </td>
-                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td class="committee-name">
+                            @item.Title
+                        </td>
+
+                        <td>
+                            <span class="category-pill">
+                                @item.TypeId
+                            </span>
+                        </td>
+
+                        <td>
+                            @item.Start.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td>
+                            @item.End.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td>
+                            @item.MembersCount
+                        </td>
+
+                        <td>
+
+                            <button class="view-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#committeeModal-@item.CommitteeId">
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- Modal -->
+                    <div class="modal fade"
+                         id="committeeModal-@item.CommitteeId"
+                         tabindex="-1"
+                         aria-hidden="true">
+
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                            <div class="modal-content"
+                                 style="border-radius:24px; border:none; padding:10px;">
+
+                                <div class="modal-header border-0 pb-0">
+
+                                    <h5 class="modal-title fw-semibold">
+                                        Committee Details
+                                    </h5>
+
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal">
+                                    </button>
+
+                                </div>
+
+                                <div class="modal-body pt-3">
+
+                                    <h5 class="fw-semibold mb-3">
+                                        Members
+                                    </h5>
+
+                                    <ul class="list-group mb-4">
+
+                                        @foreach (var member in item.Members)
+                                        {
+                                            <li class="list-group-item">
+                                                @member
+                                            </li>
+                                        }
+
+                                    </ul>
+
+                                    <h5 class="fw-semibold mb-3">
+                                        Permissions & Descriptions
+                                    </h5>
+
+                                    <div class="d-flex flex-column gap-3">
+
+                                        @foreach (var permission in item.Permissions)
+                                        {
+                                            <div class="border rounded-4 p-3">
+
+                                                <h6 class="fw-semibold mb-2 text-primary">
+                                                    @permission.Title
+                                                </h6>
+
+                                                <p class="mb-0 text-muted">
+                                                    @permission.Description
+                                                </p>
+
+                                            </div>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
             </tbody>
+
         </table>
+
     </div>
 
 </div>
