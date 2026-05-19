@@ -1,5 +1,277 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Create Meeting";
+    Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
 }
+
+@section Styles {
+
+    <style>
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+
+        .form-card {
+            background: white;
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.05);
+        }
+
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #0f172a;
+        }
+
+
+        .input-group-custom {
+            margin-bottom: 25px;
+        }
+
+
+            .input-group-custom label {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: 600;
+                color: #334155;
+            }
+
+
+        .input-box {
+            height: 55px;
+            border: 1px solid #dbe3ef;
+            border-radius: 14px;
+            padding: 0 18px;
+            width: 100%;
+        }
+
+
+        .textarea-box {
+            border: 1px solid #dbe3ef;
+            border-radius: 14px;
+            padding: 18px;
+            width: 100%;
+            min-height: 130px;
+        }
+
+
+        .row-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+
+        .create-btn {
+            background: #3b6ef5;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+
+        .cancel-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+    </style>
+
+}
+
+
+
+<div class="page-header">
+
+    <div>
+
+        <div class="page-title">
+
+            Create New Meeting
+
+        </div>
+
+        <div class="page-subtitle">
+
+            Schedule a new committee meeting
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="form-card">
+
+    <div class="section-title">
+
+        Meeting Information
+
+    </div>
+
+   
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-4" role="alert" style="border-radius: 12px;">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+            <div>
+                @TempData["ErrorMessage"]
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form asp-action="CreateMeeting" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="input-group-custom">
+
+            <label>
+
+                Meeting Title
+
+            </label>
+
+            <input class="input-box"
+                   placeholder="Enter meeting title"
+                   name="MeetingTitle" />
+
+        </div>
+
+
+
+        <div class="input-group-custom">
+
+            <label>
+
+                Committee
+
+            </label>
+
+
+            <select name="CommitteeId" class="input-box" required>
+                <option value="">Select Committee</option>
+                @if (ViewBag.Committees != null)
+                {
+                    foreach (var committee in ViewBag.Committees)
+                    {
+                        <option value="@committee.CommitteeId">@committee.Title</option>
+                    }
+                }
+            </select>
+
+        </div>
+
+
+
+        <div class="row-form">
+
+            <div class="input-group-custom">
+
+                <label>
+
+                    Date
+
+                </label>
+
+                <input type="date"
+                       class="input-box"
+                       name="Date" />
+
+            </div>
+
+
+
+            <div class="input-group-custom">
+
+                <label>
+
+                    Time
+
+                </label>
+
+                <input type="time"
+                       class="input-box"
+                       name="Time" />
+
+            </div>
+
+        </div>
+
+
+
+        <div class="row-form">
+
+            <div class="input-group-custom">
+
+                <label>
+
+                    Room
+
+                </label>
+
+                <input class="input-box"
+                       placeholder="Conference Room"
+                       name="Place" />
+
+            </div>
+
+		</div>
+
+            <div class="buttons">
+
+                <button type="button"
+                        class="cancel-btn">
+
+                    Cancel
+
+                </button>
+
+                <button type="submit"
+                        class="create-btn">
+
+                    <i class="bi bi-plus-circle"></i>
+
+                    Create Meeting
+
+                </button>
+
+            </div>
+
+    </form>
+
+</div>

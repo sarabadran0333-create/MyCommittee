@@ -2,6 +2,7 @@
     ViewData["Title"] = "Meetings";
     Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
 }
+@model IEnumerable<MyCommittee.Models.Calendar>
 
 @section Styles {
     <style>
@@ -56,10 +57,10 @@
             gap: 10px;
         }
 
-        .view-btn.active {
-            background: white;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-        }
+            .view-btn.active {
+                background: white;
+                box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+            }
 
         .create-btn {
             background: #3b6ef5;
@@ -74,35 +75,35 @@
             text-decoration: none;
         }
 
-        .create-btn:hover {
-            background: #2f5ee0;
-            color: white;
-        }
+            .create-btn:hover {
+                background: #2f5ee0;
+                color: white;
+            }
 
         .meetings-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .meetings-table thead th {
-            text-align: left;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #0f172a;
-            padding: 12px 10px 14px 10px;
-            border-bottom: 1px solid #dbe3ef;
-        }
+            .meetings-table thead th {
+                text-align: left;
+                font-size: 1rem;
+                font-weight: 600;
+                color: #0f172a;
+                padding: 12px 10px 14px 10px;
+                border-bottom: 1px solid #dbe3ef;
+            }
 
-        .meetings-table tbody td {
-            padding: 16px 10px;
-            border-bottom: 1px solid #e8eef5;
-            color: #0f172a;
-            vertical-align: middle;
-        }
+            .meetings-table tbody td {
+                padding: 16px 10px;
+                border-bottom: 1px solid #e8eef5;
+                color: #0f172a;
+                vertical-align: middle;
+            }
 
-        .meetings-table tbody tr:last-child td {
-            border-bottom: none;
-        }
+            .meetings-table tbody tr:last-child td {
+                border-bottom: none;
+            }
 
         .meeting-title {
             font-weight: 500;
@@ -121,12 +122,23 @@
             text-decoration: none;
         }
 
-        .action-btn:hover {
-            background: #2f5ee0;
-            color: white;
-        }
+            .action-btn:hover {
+                background: #2f5ee0;
+                color: white;
+            }
     </style>
 }
+
+@* @if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4" role="alert" style="border-radius: 12px;">
+        <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+        <div>
+            @TempData["SuccessMessage"]
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+} *@
 
 <div class="page-shell">
 
@@ -137,18 +149,6 @@
         </div>
 
         <div class="header-actions">
-            <div class="view-switch">
-                <button type="button" class="view-btn active">
-                    <i class="bi bi-list-ul"></i>
-                    <span>List</span>
-                </button>
-
-                <button type="button" class="view-btn">
-                    <i class="bi bi-calendar3"></i>
-                    <span>Calendar</span>
-                </button>
-            </div>
-
             <a asp-controller="Chairman" asp-action="CreateMeeting" class="create-btn">
                 <i class="bi bi-plus-lg"></i>
                 <span>Create Meeting</span>
@@ -159,7 +159,8 @@
     <table class="meetings-table">
         <thead>
             <tr>
-                <th>Title</th>
+                <th>Committee</th>
+                <th>Meeting Title</th>
                 <th>Date</th>
                 <th>Time</th>
                 <th>Room</th>
@@ -169,34 +170,191 @@
         </thead>
 
         <tbody>
-            <tr>
-                <td class="meeting-title">Budget Review Meeting</td>
-                <td>2/22/2026</td>
-                <td>10:00 AM</td>
-                <td>Conference Room A</td>
-                <td>Scheduled</td>
-                <td>
-                    <a asp-controller="Chairman" asp-action="MeetingDetails" class="action-btn">
-                        <i class="bi bi-eye"></i>
-                        <span>View Details</span>
-                    </a>
-                </td>
-            </tr>
+          
+            @if (Model != null && Model.Any())
+            {
+                foreach (var meeting in Model)
+                {
+                    <tr class="meeting-title">
+                        <td>
+                            @(meeting.Committee != null ? meeting.Committee.Title : "No Committee")
+                        </td>
+                        <td class="text-secondary">
+                            @meeting.MeetingTitle
+                        </td>
 
-            <tr>
-                <td class="meeting-title">Policy Discussion</td>
-                <td>2/23/2026</td>
-                <td>2:00 PM</td>
-                <td>Board Room</td>
-                <td>Scheduled</td>
-                <td>
-                    <a asp-controller="Chairman" asp-action="MeetingDetails" class="action-btn">
-                        <i class="bi bi-eye"></i>
-                        <span>View Details</span>
-                    </a>
-                </td>
-            </tr>
+                        <td class="text-secondary">
+                            @meeting.MeetingTime.ToString("M/d/yyyy")
+                        </td>
+
+                        <td class="text-secondary">
+                            @meeting.MeetingTime.ToString("h:mm tt")
+                        </td>
+
+                        <td class="text-secondary">
+                            @(string.IsNullOrEmpty(meeting.Place) ? "N/A" : meeting.Place)
+                        </td>
+
+                        <td>
+                            @if (meeting.MeetingTime > DateTime.Now)
+                            {
+                                <span class="text-success" style="border-radius: 20px;">Scheduled</span>
+                            }
+                            else
+                            {
+                                <span class="text-secondary" style="border-radius: 20px;">Completed</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center align-items-center gap-3">
+
+                                <a href="#"
+                                   class="text-primary fs-5 open-edit-modal"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#editMeetingModal"
+                                   data-id="@meeting.CalendarId"
+                                   data-title="@meeting.MeetingTitle"
+                                   data-committee-name="@(meeting.Committee != null ? meeting.Committee.Title : "N/A")"
+                                   data-date="@meeting.MeetingTime.ToString("yyyy-MM-ddTHH:mm")"
+                                   data-room="@meeting.Place"
+                                   title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <a href="#"
+                                   class="text-danger fs-5 open-delete-modal"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#deleteMeetingModal"
+                                   data-id="@meeting.CalendarId"
+                                   data-title="@meeting.MeetingTitle"
+                                   data-committee="@(meeting.Committee != null ? meeting.Committee.Title : "N/A")"
+                                   data-date="@meeting.MeetingTime.ToString("M/d/yyyy")"
+                                   data-room="@(string.IsNullOrEmpty(meeting.Place) ? "N/A" : meeting.Place)"
+                                   title="Delete">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-5">
+                        <i class="bi bi-calendar-x d-block display-6 mb-2"></i> No meetings scheduled yet.
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 
-</div>
+    <div class="modal fade" id="deleteMeetingModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
+            <div class="modal-content border-0 shadow" style="border-radius: 15px; padding: 20px;">
+                <div class="modal-body p-4">
+                    <h3 class="text-danger fw-bold mb-3 d-flex align-items-center gap-2" style="font-size: 1.6rem;">
+                        <i class="bi bi-exclamation-triangle-fill"></i> Delete Meeting
+                    </h3>
+                    <p class="text-muted mb-4" style="font-size: 0.95rem;">
+                        Are you sure you want to delete this meeting? This action cannot be undone.
+                    </p>
+
+                    <div class="p-4 rounded-3 mb-4" style="background-color: #f8f9fa;">
+                        <h5 class="fw-bold mb-3 text-dark" id="modalMeetingTitle">Master Degree</h5>
+                        <div style="border-top: 1px solid #e9ecef;" class="my-2"></div>
+                        <p class="mb-2 text-secondary"><strong class="text-dark">Committee:</strong> <span id="modalCommitteeName">Academic Affairs</span></p>
+                        <p class="mb-2 text-secondary"><strong class="text-dark">Date:</strong> <span id="modalMeetingDate">9/2/2026</span></p>
+                        <p class="mb-0 text-secondary"><strong class="text-dark">Room:</strong> <span id="modalMeetingRoom">Pharmacy Hall</span></p>
+                    </div>
+
+                    <form asp-action="DeleteMeeting" asp-controller="Chairman" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" id="modalMeetingId" value="" />
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger px-4 py-2 fw-semibold" style="border-radius: 8px; background-color: #dc3545; border: none;">
+                                Confirm Delete
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary px-4 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px; background-color: white; border: 1px solid #ced4da; color: #6c757d;">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editMeetingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow" style="border-radius: 15px;">
+                <div class="modal-header border-0 pt-4 px-4">
+                    <h4 class="fw-bold m-0" style="color: #0b1a30;"><i class="bi bi-pencil-square me-2"></i>Edit Meeting</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form asp-action="EditMeeting" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" id="editModalId" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted">Committee</label>
+                            <input type="text" id="editModalCommitteeText" class="form-control bg-light fw-semibold text-secondary border-0 px-3 py-2" style="border-radius: 8px;" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" style="color: #0b1a30;">Meeting Title</label>
+                            <input type="text" name="Title" id="editModalTitle" class="form-control px-3 py-2" style="border-radius: 8px;" required />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold" style="color: #0b1a30;">Date & Time</label>
+                                <input type="datetime-local" name="MeetingTime" id="editModalDate" class="form-control px-3 py-2" style="border-radius: 8px;" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold" style="color: #0b1a30;">Room / Location</label>
+                                <input type="text" name="Room" id="editModalRoom" class="form-control px-3 py-2" style="border-radius: 8px;" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="submit" class="btn btn-primary px-4 py-2" style="border-radius: 8px; background-color: #3b71ca; border: none;">Save Changes</button>
+                            <button type="button" class="btn btn-light px-4 py-2" data-bs-dismiss="modal" style="border-radius: 8px; border: 1px solid #ced4da;">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> 
+
+@section Scripts {
+    <script>
+        // delete code
+        document.querySelectorAll('.open-delete-modal').forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('modalMeetingId').value = this.getAttribute('data-id');
+                document.getElementById('modalMeetingTitle').innerText = this.getAttribute('data-title');
+                document.getElementById('modalCommitteeName').innerText = this.getAttribute('data-committee');
+                document.getElementById('modalMeetingDate').innerText = this.getAttribute('data-date');
+                document.getElementById('modalMeetingRoom').innerText = this.getAttribute('data-room');
+            });
+        });
+
+        // edit code
+        document.querySelectorAll('.open-edit-modal').forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('editModalId').value = this.getAttribute('data-id');
+                document.getElementById('editModalTitle').value = this.getAttribute('data-title');
+                document.getElementById('editModalCommitteeText').value = this.getAttribute('data-committee-name');
+                document.getElementById('editModalDate').value = this.getAttribute('data-date');
+                document.getElementById('editModalRoom').value = this.getAttribute('data-room');
+            });
+        });
+    </script>
+}
