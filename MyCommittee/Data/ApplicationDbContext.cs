@@ -21,6 +21,7 @@ namespace MyCommittee.Data
         public DbSet<CommitteeType> CommitteeTypes { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Actions> Actions { get; set; }
+        public DbSet<TaskItem> Tasks { get; set; }
         public IEnumerable<object> Attendance { get; internal set; }
     }
 }

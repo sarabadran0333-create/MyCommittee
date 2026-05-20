@@ -138,7 +138,30 @@ namespace MyCommittee.Controllers
         }
         public IActionResult Tasks()
         {
-            return View();
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var leaderCommitteeIds = _context.CommitteeMembers
+                .Where(cm => cm.JobId == userId)
+                .Select(cm => cm.CommitteeId)
+                .ToList();
+
+            var tasks = _context.Tasks
+                .Include(t => t.Member)
+                .Include(t => t.Committee)
+                .Where(t => leaderCommitteeIds.Contains(t.CommitteeId))
+                .ToList();
+            ViewBag.TotalTasks = tasks.Count();
+
+            ViewBag.CompletedTasks = tasks.Count(t => t.IsSubmitted);
+
+            ViewBag.InProgressTasks = tasks.Count(t =>
+                !t.IsSubmitted && t.Deadline >= DateTime.Now);
+            return View(tasks);
         }
         public IActionResult Calendar()
         {

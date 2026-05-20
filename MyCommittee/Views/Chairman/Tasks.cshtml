@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<MyCommittee.Models.TaskItem>
+@{
     ViewData["Title"] = "Tasks";
     Layout = "~/Views/Shared/_ChairmanLayout.cshtml";
 }
@@ -54,12 +55,13 @@
             color: #0f172a;
         }
 
-        .stat-value.progress {
-            color: #f59e0b;
-        }
-
+            .stat-value.in-progress {
+                color: #2563eb;
+                background: transparent;
+            }
         .stat-value.completed {
             color: #16a34a;
+                background: transparent;
         }
 
         .section-card {
@@ -116,19 +118,32 @@
             cursor: pointer;
         }
 
-        .status-progress {
-            background-color: #fff7ed;
-            color: #f59e0b;
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-block;
         }
 
-        .status-pending {
-            background-color: #f8fafc;
-            color: #64748b;
+        .in-progress {
+            background-color: #dbeafe;
+            color: #2563eb;
         }
 
-        .status-completed {
-            background-color: #ecfdf3;
+        .completed {
+            background-color: #dcfce7;
             color: #16a34a;
+        }
+
+        .overdue {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        .overdue {
+            background: #ffe5e5;
+            color: #dc2626;
         }
     </style>
 }
@@ -142,17 +157,23 @@
 
         <div class="stat-card">
             <div class="stat-title">Total Tasks</div>
-            <div class="stat-value default">4</div>
+            <div class="stat-value default">
+                @ViewBag.TotalTasks
+            </div>
         </div>
 
         <div class="stat-card">
             <div class="stat-title">In Progress</div>
-            <div class="stat-value progress">2</div>
+            <div class="stat-value in-progress">
+                @ViewBag.InProgressTasks
+            </div>
         </div>
 
         <div class="stat-card">
             <div class="stat-title">Completed</div>
-            <div class="stat-value completed">1</div>
+            <div class="stat-value completed">
+                @ViewBag.CompletedTasks
+            </div>
         </div>
 
     </div>
@@ -171,57 +192,43 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>Review budget proposal</td>
-                    <td>Dr. Sarah Ahmed</td>
-                    <td>2/24/2026</td>
-                    <td>
-                        <select class="status-select status-progress">
-                            <option selected>In Progress</option>
-                            <option>Pending</option>
-                            <option>Completed</option>
-                        </select>
-                    </td>
-                </tr>
+                @foreach (var item in Model)
+                {
+                    string status = "";
+                    string statusClass = "";
 
-                <tr>
-                    <td>Update research guidelines</td>
-                    <td>Prof. Mohammed Ali</td>
-                    <td>2/26/2026</td>
-                    <td>
-                        <select class="status-select status-pending">
-                            <option>In Progress</option>
-                            <option selected>Pending</option>
-                            <option>Completed</option>
-                        </select>
-                    </td>
-                </tr>
+                    if (item.IsSubmitted)
+                    {
+                        status = "Completed";
+                        statusClass = "completed";
+                    }
+                    else if (item.Deadline < DateTime.Now)
+                    {
+                        status = "Overdue";
+                        statusClass = "overdue";
+                    }
+                    else
+                    {
+                        status = "In Progress";
+                        statusClass = "in-progress";
+                    }
 
-                <tr>
-                    <td>Prepare meeting agenda</td>
-                    <td>Ms. Fatima Hassan</td>
-                    <td>2/23/2026</td>
-                    <td>
-                        <select class="status-select status-completed">
-                            <option>In Progress</option>
-                            <option>Pending</option>
-                            <option selected>Completed</option>
-                        </select>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@item.Task</td>
 
-                <tr>
-                    <td>Review policy draft</td>
-                    <td>Mr. Ahmed Khan</td>
-                    <td>2/25/2026</td>
-                    <td>
-                        <select class="status-select status-progress">
-                            <option selected>In Progress</option>
-                            <option>Pending</option>
-                            <option>Completed</option>
-                        </select>
-                    </td>
-                </tr>
+                        <td>@item.Member.Username</td>
+
+                        <td>
+                            @item.Deadline.ToShortDateString()
+                        </td>
+
+                        <td>
+                            <span class="status-badge @statusClass">
+                                @status
+                            </span>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
